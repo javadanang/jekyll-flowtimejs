@@ -1,0 +1,18 @@
+---
+layout: flowtime
+title: Empty (declare in _config.yml)
+---
+
+{% for post in site.posts reversed %}
+    {% assign ft_sections = post.content | split:"<!--section-->" %}
+    {% for ft_section in ft_sections %}
+    <div class="ft-section">
+        {% assign ft_pages = ft_section | split:"<!--page-->" %}
+        {% for ft_page in ft_pages %}
+        <div class="ft-page">
+            {{ ft_page }} 
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+{% endfor %}

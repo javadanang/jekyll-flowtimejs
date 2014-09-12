@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<!--[if IE 6]>
+<html id="ie6" lang="en-US" class="ie ie6 lt-ie9">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" lang="en-US" class="ie ie7 lt-ie9">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" lang="en-US" class="ie ie8 lt-ie9">
+<![endif]-->
+<!--[if gte IE 9]>
+<html lang="en-US" class="ie ie9">
+<![endif]-->
+<!--[if !(IE)]><!-->
+<html lang="en-US" class="">
+<!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1.0 minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  
+  <meta name="author" content="{{ site.owner.name }}">
+  <meta name="description" content="{{ site.owner.description }}">
+
+  <title>{{ site.title }}</title>
+  <link rel="stylesheet" href="{{ site.flowtime_path }}assets/css/reset.css">
+  <link rel="stylesheet" href="{{ site.flowtime_path }}assets/css/prism.css">
+  <link rel="stylesheet" href="{{ site.flowtime_path }}css/flowtime.css">
+  
+  <link rel="stylesheet" href="{{ site.theme_default }}">
+  <link rel="stylesheet" href="{{ site.theme_custom }}">
+</head>
+<body class="">
+
+  <div class="flowtime{% if site.flowtime_options.horizontal_direction %} ft-cross{% endif %}">
+    {{ content }}
+  </div>
+
+  {% if site.flowtime_options.navigation_enabled %}
+  <div class="titles">
+    <div class="title-prev"></div>
+    <div class="title-next"></div>
+  </div>
+  {% endif %}
+
+  <script src="{{ site.flowtime_path }}js/brav1toolbox.js"></script>
+  <script src="{{ site.flowtime_path }}js/flowtime.js"></script>
+  <script src="{{ site.flowtime_path }}assets/js/prism.js"></script>
+
+  <script type="text/javascript">
+    // Configuration API test
+    Flowtime.showProgress(true);
+    // Flowtime.fragmentsOnSide(true);
+    // Flowtime.fragmentsOnBack(true);
+    // Flowtime.useHistory(false);
+    // Flowtime.slideInPx(true);
+    // Flowtime.sectionsSlideToTop(true);
+    // Flowtime.gridNavigation(false);
+    // Flowtime.useOverviewVariant(true);
+    // Flowtime.parallaxInPx(true);
+    // Flowtime.clicker(true);
+    // Flowtime.loop(true);
+
+    {% if site.flowtime_options.navigation_enabled %}
+    var prevTitle = document.querySelector(".title-prev");
+    var nextTitle = document.querySelector(".title-next");
+
+    prevTitle.addEventListener("click", Flowtime.prev, false);
+    nextTitle.addEventListener("click", Flowtime.next, false);
+    {% endif %}
+
+    Flowtime.addEventListener("flowtimenavigation", onNavigation, false);
+
+    function onNavigation(e)
+    {
+      {% if site.flowtime_options.navigation_enabled %}
+      var prevPage = Flowtime.getPrevPage();
+      var nextPage = Flowtime.getNextPage();
+      if (prevPage === null) {
+        prevTitle.innerHTML = "";
+      } else {
+        prevTitle.innerHTML = "&lt; " + prevPage.getAttribute("data-title");
+      }
+      if (nextPage === null) {
+        nextTitle.innerHTML = "";
+      } else {
+        nextTitle.innerHTML = nextPage.getAttribute("data-title") + " &gt;";
+      }
+      {% endif %}
+    }
+
+    // starts the application with configuration options
+    Flowtime.start();
+  </script>
+
+  {% include google_analytics.html %}
+</body>
+</html>
